@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch data from local file</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+<body>
+  <div class="flex flex-col justify-center items-center text-lg mt-5">
+    <h1 class="text-2xl">Fetch data from local file</h1>
+    <div id="address-list"></div>
+  </div>
+
+  <script>
+    // query selector for dynamically generate elements container
+    const addressList = document.querySelector("#address-list");
+    
+    // function to generate address elements
+    const generateAddresses = (data) => {
+      // loop over data and generate dynamic element
+      data.addresses.forEach((address) => {
+        // create a div to store our address
+        const newAddressDiv = document.createElement('div');
+        // add tailwind classes
+        newAddressDiv.classList.add("px-6", "pt-4", "pb-2");
+        // create HTML string for each address
+        const addressHTML = `
+        <p>${address.address1}</p>
+        <p>${address.city}</p>
+        <p>${address.state}, ${address.postalCode}</p>
+        `;
+        // set innerHTML of newAddressDrive to addressHTML
+        newAddressDiv.innerHTML = addressHTML;
+        // append newAddressDiv to address-list target
+        addressList.appendChild(newAddressDiv);
+      });
+    };
+    
+    //fetch our data
+    fetch("https://api.jsonbin.io/v3/qs/6550c30a0574da7622c5a121")
+    .then(response => response.json())
+    .then(data => generateAddresses(data));
+    </script>
+</body>
+</html>
